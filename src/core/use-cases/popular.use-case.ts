@@ -3,9 +3,16 @@ import { MovieDbResponse } from "../../infrastructure/interfaces/movie-db.respon
 import { MovieMapper } from "../../infrastructure/mappers/movie.mapper";
 import { Movie } from "../entities/movie.entity";
 
-export const PopularMoviesUseCase = async (fetcher: HttpAdapter) :Promise<Movie[]> => {
+interface Options {
+    page?: number;
+    limit?: number;
+}
+
+export const PopularMoviesUseCase = async (fetcher: HttpAdapter, options?: Options) :Promise<Movie[]> => {
     try {
-        const Popular = await fetcher.get<MovieDbResponse>('/popular', {});
+        const Popular = await fetcher.get<MovieDbResponse>('/popular', {
+            page: options?.page ?? 1,
+        });
 
         return Popular.results.map((result => MovieMapper.fromMovieDBResultToEntity(result)));
 
