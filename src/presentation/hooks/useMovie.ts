@@ -11,6 +11,8 @@ export const useMovie = () => {
     const [isloading, setIsLoading] = useState(true);
 
     let popularPageNumber = 1;
+    let topRatedPageNumber = 1;
+    let upcomingPageNumber = 1;
 
     useEffect(() => {
         initialLoad();
@@ -47,6 +49,16 @@ export const useMovie = () => {
             popularPageNumber++;
             const popularMovies = await UseCases.PopularMoviesUseCase(movieDbFetcher, {page: popularPageNumber});
             setPopular(prev => [...prev!, ...popularMovies]);
+        },
+        topRatedNextPage: async () => { 
+            topRatedPageNumber++;
+            const topRatedMovies = await UseCases.TopRatedMoviesUseCase(movieDbFetcher, {page: topRatedPageNumber});
+            setTopRated(prev => [...prev!, ...topRatedMovies]);
+        },
+        upcomingNextPage: async () => {
+            upcomingPageNumber++;
+            const upcomingMovies = await UseCases.upcomingMoviesUseCase(movieDbFetcher, {page: upcomingPageNumber});
+            setUpcoming(prev => [...prev!, ...upcomingMovies]);
         }
     };
 };

@@ -3,7 +3,13 @@ import { MovieDbResponse } from "../../infrastructure/interfaces/movie-db.respon
 import { MovieMapper } from "../../infrastructure/mappers/movie.mapper";
 import { Movie } from "../entities/movie.entity";
 
-export const upcomingMoviesUseCase = async (fetcher: HttpAdapter) :Promise<Movie[]> => {
+interface Options {
+    page?: number;
+    limit?: number;
+}
+
+
+export const upcomingMoviesUseCase = async (fetcher: HttpAdapter, options?:  Options) :Promise<Movie[]> => {
     try {
         const upcomingMovies = await fetcher.get<MovieDbResponse>('/upcoming', {});
 
